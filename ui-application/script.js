@@ -1,5 +1,7 @@
 var todos = [];
 var baseurl = "http://localhost:8080";
+
+//when a mouse enters the list items, show the x delete button
 $(document).ready(function () {
   $(document).on('mouseenter', '.items', function () {
     $(this).find(":button").show();
@@ -8,9 +10,12 @@ $(document).ready(function () {
   });
 });
 
+// check for keydown inside the input text field.
 $('#inputText').keydown(function(e) {
   var item = $('#inputText').val();
+  //if the keydown was enter and there is an item in the field
   if (e.which == 13 && item.length > 0) {
+    //set the input text back to blank and make POST request
     $('#inputText').val('')
     $.ajax({
       method: "POST",
@@ -19,10 +24,12 @@ $('#inputText').keydown(function(e) {
       data: JSON.stringify({todo: item})
     })
     .done(function(data) {
+      //reload the items
       loadItems()
     });
   }
 });
+//load the list items from the bff api
 function loadItems() {
   $.get(baseurl + "/todoitems")
     .done(function(data) {
@@ -35,8 +42,10 @@ function loadItems() {
       }
     });
 }
+//on page load, call load items
 loadItems()
 
+//refresh the list by first emptying it, then appending items from todo array
 function refreshList() {
   $('#todoList').empty();
   for (var i=0; i<todos.length; i++) {
@@ -48,6 +57,7 @@ function refreshList() {
   }
 }
 
+//delete items from the todos array and from db via DELETE request
 function deleteItem(index) {
   var id = todos[index]._id
   $.ajax({
