@@ -1,4 +1,5 @@
 var todos = [];
+//this base url should point to where the BFF Server is running
 var baseurl = "http://localhost:8080";
 
 //when a mouse enters the list items, show the x delete button
