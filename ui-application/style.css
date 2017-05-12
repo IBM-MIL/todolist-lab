@@ -1,0 +1,48 @@
+body {background:#F5F5F5;}
+h2 {
+  font-family: 'Helvetica Neue';
+  font-size: 40pt;
+  font-style: italic;
+  color: #F18B7C;
+  text-align: center
+}
+li {
+  list-style-type: none;
+  background-color: white;
+  border-bottom: solid 2px #F5F5F5;
+}
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+.container {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+.toggle {
+  margin: 20px;
+}
+.todoList {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+}
+.formInputArea {
+  width: 300px;
+  margin: auto;
+}
+.inputText{
+  font-size: larger;
+  width: 280px;
+  border: none;
+  height: 30px;
+  padding: 10px;
+}
+
+.button {
+  display: none;
+  float:right;
+  height: 52px;
+}
