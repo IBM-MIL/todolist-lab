@@ -1,0 +1,15 @@
+---
+applications:
+- disk_quota: 1024M
+  name: mytodolistbff
+  domain: mybluemix.net
+  host: my-todolist-bff
+  memory: 256M
+  instances: 1
+  timeout: 180
+  buildpack: sdk-for-nodejs
+  command: npm start
+  services:
+    - Cloudant NoSQL DB-0r
+  env:
+    OPENAPI_SPEC: /swagger/api
