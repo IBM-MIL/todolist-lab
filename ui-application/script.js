@@ -52,6 +52,7 @@ function refreshList() {
   for (var i=0; i<todos.length; i++) {
     $('#todoList').append("<li class=\"items\"><input class=\"toggle\" type=\"checkbox\">"
     + todos[i].todo
+    + "<button class=\"button\" onclick=\"speak('" + todos[i].todo + "')\">Speak</button>"
     + "<button class=\"button\" onclick=\"deleteItem("
     + i
     + ")\">X</button></li>")
