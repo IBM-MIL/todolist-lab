@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const Cloudant = require('cloudant');
+const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1')
 
 // Emulating VCAP_VARIABLES if running in local mode
 try { require("./vcap-local"); } catch (e) {}
@@ -21,6 +22,9 @@ require('appmetrics-dash').attach();
 // Cloudant instrumentation
 var cloudant = Cloudant(appEnv.services['cloudantNoSQLDB'][0].credentials);
 var cloudantDb = cloudant.db.use("mydb");
+
+// Text to Speech service
+const textToSpeech = new TextToSpeechV1();
 
 // Swagger instrumentation
 app.use("/swagger/api", express.static("./public/swagger.yaml"));
@@ -86,6 +90,12 @@ app.delete("/todoitem/:id", function(req, res, next){
 			res.json({deleted_doc:doc, data:data});
 		})
 	})
+});
+
+// Synthesize text using the Text-to-Speech service
+app.get('/synthesize', function(req, res) {
+	const audio = textToSpeech.synthesize(req.query);
+	audio.pipe(res);
 });
 
 // Starting the server
