@@ -69,3 +69,10 @@ function deleteItem(index) {
   todos.splice(index, 1)
   refreshList()
 }
+
+// speak the text with text-to-speech
+function speak(text) {
+  var audio = document.createElement('audio');
+  audio.setAttribute('src', baseurl + '/synthesize?text=' + text);
+  audio.play();
+}
