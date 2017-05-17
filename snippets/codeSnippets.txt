@@ -1,0 +1,51 @@
+//SNIPPET ONE
+app.get("/todoitems", function(req, res, next){
+	var todoitems = [];
+	cloudantDb.list({ include_docs: true },function(err, body) {
+		if(!err) {
+			body.rows.forEach(function(row) {
+				todoitems.push(row.doc)
+			})
+			res.json(todoitems);
+		}
+	})
+});
+
+
+//SNIPPET TWO
+app.post("/todoitems", function(req, res, next){
+	var todoItem = req.body.todo;
+	cloudantDb.insert({"todo":todoItem}, function(err, body, header) {
+		if (err) {
+			return console.log("error", err.message)
+		}
+		res.send(body)
+	})
+});
+
+//SNIPPET THREE
+app.delete("/todoitem/:id", function(req, res, next){
+	var todoItemId = req.params.id
+	cloudantDb.get(todoItemId, function(err, doc) {
+		if (err) {
+			res.json({err:err});
+			return;
+		}
+		cloudantDb.destroy(doc._id, doc._rev, function(err, data) {
+			if(err) {
+				res.json({err:err});
+				return;
+			}
+			res.json({deleted_doc:doc, data:data});
+		})
+	})
+});
+
+//SNIPPET FOUR
+///////Enable CORS for all origins
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
